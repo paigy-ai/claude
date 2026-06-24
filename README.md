@@ -25,6 +25,25 @@ approve).
 claude mcp add paigy -s user -- npx -y @paigy/mcp
 ```
 
+## Choosing how the user answers
+
+`notify_user` should ask in the shape that's fastest to answer — don't leave a
+decision as free text. Pick with `select` (and `options`):
+
+| You need… | Use | Answer comes back as |
+|---|---|---|
+| **Yes/No or Approve/Deny** | `select:"confirm"` (`confirmStyle:"approve"` for Approve/Deny) | `{kind:"confirm", approved}` |
+| **Pick one of several** | `options` + `select:"one"` | `{kind:"option", optionId}` |
+| **Pick several** | `options` + `select:"many"` | `{kind:"multi", optionIds}` |
+| **Rank / order a subset** | `options` + `select:"rank"` | `{kind:"ranked", optionIds}` |
+| **A visual choice** | options with an `html` or `image` preview | one of the above |
+| **An open-ended reply** | no options | `{kind:"text", text}` |
+
+`confirm` is **answerable straight from the banner** (Yes/No or Approve/Deny
+buttons). Other paiges get banner actions **See Options · Hear them · Remind me
+later**. Set `urgency:"alert"` so it rings through as a banner (vs `"inbox"`
+silent or `"call"` to ring the phone).
+
 ## License
 
 MIT
